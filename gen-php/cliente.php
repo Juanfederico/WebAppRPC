@@ -20,13 +20,19 @@
 		}
 	}
 
-	require_once 'SocioService.php'; 
-	require_once 'Types.php'; 
+	require_once 'consultasClub/FilialService.php';
+	require_once 'consultasClub/CanchaService.php';
+	require_once 'consultasClub/SocioService.php';
+	require_once 'consultasClub/TurnoService.php';
+	require_once 'consultasClub/Types.php'; 
 	use Thrift\Exception\TException;
 	use Thrift\Transport\TSocket;
 	use Thrift\Protocol\TBinaryProtocol;
 	use Thrift\Transport\TBufferedTransport;
+	use consultasClub\CanchaServiceClient;
+	use consultasClub\FilialServiceClient;
 	use consultasClub\SocioServiceClient;
+	use consultasClub\TurnoServiceClient;
 	//use ejemplo\Pelicula;
 	try {
 		// Crea una conexión con el servidor

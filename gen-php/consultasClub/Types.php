@@ -28,22 +28,22 @@ class Filial {
       ),
     2 => array(
       'var' => 'localidad',
-      'isRequired' => false,
+      'isRequired' => true,
       'type' => TType::STRING,
       ),
     3 => array(
       'var' => 'horario_apertura',
-      'isRequired' => false,
+      'isRequired' => true,
       'type' => TType::STRING,
       ),
     4 => array(
       'var' => 'horario_cierre',
-      'isRequired' => false,
+      'isRequired' => true,
       'type' => TType::STRING,
       ),
     5 => array(
       'var' => 'diames_mantenimiento',
-      'isRequired' => false,
+      'isRequired' => true,
       'type' => TType::I32,
       ),
     );
@@ -188,32 +188,116 @@ class Filial {
 
 }
 
-class UserSocio {
+class Socio {
   static $isValidate = false;
 
   static $_TSPEC = array(
     1 => array(
+      'var' => 'idsocio',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    2 => array(
+      'var' => 'num_afiliado',
+      'isRequired' => true,
+      'type' => TType::I32,
+      ),
+    3 => array(
       'var' => 'user',
+      'isRequired' => true,
+      'type' => TType::STRING,
+      ),
+    4 => array(
+      'var' => 'nombre',
+      'isRequired' => true,
+      'type' => TType::STRING,
+      ),
+    5 => array(
+      'var' => 'apellido',
+      'isRequired' => true,
+      'type' => TType::STRING,
+      ),
+    6 => array(
+      'var' => 'direccion',
+      'isRequired' => true,
+      'type' => TType::STRING,
+      ),
+    7 => array(
+      'var' => 'telefono',
+      'isRequired' => true,
+      'type' => TType::STRING,
+      ),
+    8 => array(
+      'var' => 'email',
       'isRequired' => true,
       'type' => TType::STRING,
       ),
     );
 
   /**
+   * @var int
+   */
+  public $idsocio = null;
+  /**
+   * @var int
+   */
+  public $num_afiliado = null;
+  /**
    * @var string
    */
   public $user = null;
+  /**
+   * @var string
+   */
+  public $nombre = null;
+  /**
+   * @var string
+   */
+  public $apellido = null;
+  /**
+   * @var string
+   */
+  public $direccion = null;
+  /**
+   * @var string
+   */
+  public $telefono = null;
+  /**
+   * @var string
+   */
+  public $email = null;
 
   public function __construct($vals=null) {
     if (is_array($vals)) {
+      if (isset($vals['idsocio'])) {
+        $this->idsocio = $vals['idsocio'];
+      }
+      if (isset($vals['num_afiliado'])) {
+        $this->num_afiliado = $vals['num_afiliado'];
+      }
       if (isset($vals['user'])) {
         $this->user = $vals['user'];
+      }
+      if (isset($vals['nombre'])) {
+        $this->nombre = $vals['nombre'];
+      }
+      if (isset($vals['apellido'])) {
+        $this->apellido = $vals['apellido'];
+      }
+      if (isset($vals['direccion'])) {
+        $this->direccion = $vals['direccion'];
+      }
+      if (isset($vals['telefono'])) {
+        $this->telefono = $vals['telefono'];
+      }
+      if (isset($vals['email'])) {
+        $this->email = $vals['email'];
       }
     }
   }
 
   public function getName() {
-    return 'UserSocio';
+    return 'Socio';
   }
 
   public function read($input)
@@ -232,8 +316,57 @@ class UserSocio {
       switch ($fid)
       {
         case 1:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idsocio);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->num_afiliado);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
           if ($ftype == TType::STRING) {
             $xfer += $input->readString($this->user);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->nombre);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->apellido);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 6:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->direccion);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 7:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->telefono);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 8:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->email);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -250,10 +383,411 @@ class UserSocio {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('UserSocio');
+    $xfer += $output->writeStructBegin('Socio');
+    if ($this->idsocio !== null) {
+      $xfer += $output->writeFieldBegin('idsocio', TType::I32, 1);
+      $xfer += $output->writeI32($this->idsocio);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->num_afiliado !== null) {
+      $xfer += $output->writeFieldBegin('num_afiliado', TType::I32, 2);
+      $xfer += $output->writeI32($this->num_afiliado);
+      $xfer += $output->writeFieldEnd();
+    }
     if ($this->user !== null) {
-      $xfer += $output->writeFieldBegin('user', TType::STRING, 1);
+      $xfer += $output->writeFieldBegin('user', TType::STRING, 3);
       $xfer += $output->writeString($this->user);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->nombre !== null) {
+      $xfer += $output->writeFieldBegin('nombre', TType::STRING, 4);
+      $xfer += $output->writeString($this->nombre);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->apellido !== null) {
+      $xfer += $output->writeFieldBegin('apellido', TType::STRING, 5);
+      $xfer += $output->writeString($this->apellido);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->direccion !== null) {
+      $xfer += $output->writeFieldBegin('direccion', TType::STRING, 6);
+      $xfer += $output->writeString($this->direccion);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->telefono !== null) {
+      $xfer += $output->writeFieldBegin('telefono', TType::STRING, 7);
+      $xfer += $output->writeString($this->telefono);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->email !== null) {
+      $xfer += $output->writeFieldBegin('email', TType::STRING, 8);
+      $xfer += $output->writeString($this->email);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class Cancha {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'idcancha',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    2 => array(
+      'var' => 'idfilial',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    3 => array(
+      'var' => 'num_cancha',
+      'isRequired' => true,
+      'type' => TType::I32,
+      ),
+    4 => array(
+      'var' => 'deporte',
+      'isRequired' => true,
+      'type' => TType::STRING,
+      ),
+    5 => array(
+      'var' => 'categoria',
+      'isRequired' => true,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $idcancha = null;
+  /**
+   * @var int
+   */
+  public $idfilial = null;
+  /**
+   * @var int
+   */
+  public $num_cancha = null;
+  /**
+   * @var string
+   */
+  public $deporte = null;
+  /**
+   * @var string
+   */
+  public $categoria = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['idcancha'])) {
+        $this->idcancha = $vals['idcancha'];
+      }
+      if (isset($vals['idfilial'])) {
+        $this->idfilial = $vals['idfilial'];
+      }
+      if (isset($vals['num_cancha'])) {
+        $this->num_cancha = $vals['num_cancha'];
+      }
+      if (isset($vals['deporte'])) {
+        $this->deporte = $vals['deporte'];
+      }
+      if (isset($vals['categoria'])) {
+        $this->categoria = $vals['categoria'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'Cancha';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idcancha);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idfilial);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->num_cancha);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->deporte);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->categoria);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('Cancha');
+    if ($this->idcancha !== null) {
+      $xfer += $output->writeFieldBegin('idcancha', TType::I32, 1);
+      $xfer += $output->writeI32($this->idcancha);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->idfilial !== null) {
+      $xfer += $output->writeFieldBegin('idfilial', TType::I32, 2);
+      $xfer += $output->writeI32($this->idfilial);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->num_cancha !== null) {
+      $xfer += $output->writeFieldBegin('num_cancha', TType::I32, 3);
+      $xfer += $output->writeI32($this->num_cancha);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->deporte !== null) {
+      $xfer += $output->writeFieldBegin('deporte', TType::STRING, 4);
+      $xfer += $output->writeString($this->deporte);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->categoria !== null) {
+      $xfer += $output->writeFieldBegin('categoria', TType::STRING, 5);
+      $xfer += $output->writeString($this->categoria);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class Turno {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'idturno',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    2 => array(
+      'var' => 'idfilial',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    3 => array(
+      'var' => 'idcancha',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    4 => array(
+      'var' => 'idsocio',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    5 => array(
+      'var' => 'fechahora',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    6 => array(
+      'var' => 'estado',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $idturno = null;
+  /**
+   * @var int
+   */
+  public $idfilial = null;
+  /**
+   * @var int
+   */
+  public $idcancha = null;
+  /**
+   * @var int
+   */
+  public $idsocio = null;
+  /**
+   * @var string
+   */
+  public $fechahora = null;
+  /**
+   * @var string
+   */
+  public $estado = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['idturno'])) {
+        $this->idturno = $vals['idturno'];
+      }
+      if (isset($vals['idfilial'])) {
+        $this->idfilial = $vals['idfilial'];
+      }
+      if (isset($vals['idcancha'])) {
+        $this->idcancha = $vals['idcancha'];
+      }
+      if (isset($vals['idsocio'])) {
+        $this->idsocio = $vals['idsocio'];
+      }
+      if (isset($vals['fechahora'])) {
+        $this->fechahora = $vals['fechahora'];
+      }
+      if (isset($vals['estado'])) {
+        $this->estado = $vals['estado'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'Turno';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idturno);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idfilial);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idcancha);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idsocio);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->fechahora);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 6:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->estado);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('Turno');
+    if ($this->idturno !== null) {
+      $xfer += $output->writeFieldBegin('idturno', TType::I32, 1);
+      $xfer += $output->writeI32($this->idturno);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->idfilial !== null) {
+      $xfer += $output->writeFieldBegin('idfilial', TType::I32, 2);
+      $xfer += $output->writeI32($this->idfilial);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->idcancha !== null) {
+      $xfer += $output->writeFieldBegin('idcancha', TType::I32, 3);
+      $xfer += $output->writeI32($this->idcancha);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->idsocio !== null) {
+      $xfer += $output->writeFieldBegin('idsocio', TType::I32, 4);
+      $xfer += $output->writeI32($this->idsocio);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->fechahora !== null) {
+      $xfer += $output->writeFieldBegin('fechahora', TType::STRING, 5);
+      $xfer += $output->writeString($this->fechahora);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->estado !== null) {
+      $xfer += $output->writeFieldBegin('estado', TType::STRING, 6);
+      $xfer += $output->writeString($this->estado);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();

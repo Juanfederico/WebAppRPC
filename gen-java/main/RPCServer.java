@@ -7,12 +7,16 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransportException;
 
-import handler.EjemploHandler;
-import servicios.SocioService;
+import handler.ConsultaHandler;
+import consultasClub.FilialService;
+import consultasClub.CanchaService;
+import consultasClub.SocioService;
+import consultasClub.TurnoService;
+//import servicios.SocioService;
 
 public class RPCServer {
-	public static EjemploHandler handler = new EjemploHandler();
-	public static SocioService.Processor<EjemploHandler> processor = new SocioService.Processor<EjemploHandler>(handler);
+	public static ConsultaHandler handler = new ConsultaHandler();
+	public static SocioService.Processor<ConsultaHandler> processor = new SocioService.Processor<ConsultaHandler>(handler);
 	
 	public static void main(String[] args) {
 		Runnable simple = new Runnable() {
@@ -24,7 +28,7 @@ public class RPCServer {
 	      new Thread(simple).start();
 	}
 
-	public static void simple(SocioService.Processor<EjemploHandler> processor) {
+	public static void simple(SocioService.Processor<ConsultaHandler> processor) {
 	    TServerTransport serverTransport;
 		try {
 			serverTransport = new TServerSocket(9091);

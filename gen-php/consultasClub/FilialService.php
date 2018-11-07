@@ -18,10 +18,15 @@ use Thrift\Exception\TApplicationException;
 
 interface FilialServiceIf {
   /**
-   * @param string $user
+   * @param int $idfilial
+   * @return string
+   */
+  public function traerLocalidad($idfilial);
+  /**
+   * @param string $localidad
    * @return int
    */
-  public function traerMailSocio($user);
+  public function traerDiaMantenimiento($localidad);
 }
 
 
@@ -36,34 +41,34 @@ class FilialServiceClient implements \consultasClub\FilialServiceIf {
     $this->output_ = $output ? $output : $input;
   }
 
-  public function traerMailSocio($user)
+  public function traerLocalidad($idfilial)
   {
-    $this->send_traerMailSocio($user);
-    return $this->recv_traerMailSocio();
+    $this->send_traerLocalidad($idfilial);
+    return $this->recv_traerLocalidad();
   }
 
-  public function send_traerMailSocio($user)
+  public function send_traerLocalidad($idfilial)
   {
-    $args = new \consultasClub\FilialService_traerMailSocio_args();
-    $args->user = $user;
+    $args = new \consultasClub\FilialService_traerLocalidad_args();
+    $args->idfilial = $idfilial;
     $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($this->output_, 'traerMailSocio', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+      thrift_protocol_write_binary($this->output_, 'traerLocalidad', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
     }
     else
     {
-      $this->output_->writeMessageBegin('traerMailSocio', TMessageType::CALL, $this->seqid_);
+      $this->output_->writeMessageBegin('traerLocalidad', TMessageType::CALL, $this->seqid_);
       $args->write($this->output_);
       $this->output_->writeMessageEnd();
       $this->output_->getTransport()->flush();
     }
   }
 
-  public function recv_traerMailSocio()
+  public function recv_traerLocalidad()
   {
     $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
-    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\consultasClub\FilialService_traerMailSocio_result', $this->input_->isStrictRead());
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\consultasClub\FilialService_traerLocalidad_result', $this->input_->isStrictRead());
     else
     {
       $rseqid = 0;
@@ -77,14 +82,65 @@ class FilialServiceClient implements \consultasClub\FilialServiceIf {
         $this->input_->readMessageEnd();
         throw $x;
       }
-      $result = new \consultasClub\FilialService_traerMailSocio_result();
+      $result = new \consultasClub\FilialService_traerLocalidad_result();
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
     if ($result->success !== null) {
       return $result->success;
     }
-    throw new \Exception("traerMailSocio failed: unknown result");
+    throw new \Exception("traerLocalidad failed: unknown result");
+  }
+
+  public function traerDiaMantenimiento($localidad)
+  {
+    $this->send_traerDiaMantenimiento($localidad);
+    return $this->recv_traerDiaMantenimiento();
+  }
+
+  public function send_traerDiaMantenimiento($localidad)
+  {
+    $args = new \consultasClub\FilialService_traerDiaMantenimiento_args();
+    $args->localidad = $localidad;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'traerDiaMantenimiento', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('traerDiaMantenimiento', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_traerDiaMantenimiento()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\consultasClub\FilialService_traerDiaMantenimiento_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \consultasClub\FilialService_traerDiaMantenimiento_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("traerDiaMantenimiento failed: unknown result");
   }
 
 }
@@ -92,32 +148,32 @@ class FilialServiceClient implements \consultasClub\FilialServiceIf {
 
 // HELPER FUNCTIONS AND STRUCTURES
 
-class FilialService_traerMailSocio_args {
+class FilialService_traerLocalidad_args {
   static $isValidate = false;
 
   static $_TSPEC = array(
-    6 => array(
-      'var' => 'user',
+    1 => array(
+      'var' => 'idfilial',
       'isRequired' => false,
-      'type' => TType::STRING,
+      'type' => TType::I32,
       ),
     );
 
   /**
-   * @var string
+   * @var int
    */
-  public $user = null;
+  public $idfilial = null;
 
   public function __construct($vals=null) {
     if (is_array($vals)) {
-      if (isset($vals['user'])) {
-        $this->user = $vals['user'];
+      if (isset($vals['idfilial'])) {
+        $this->idfilial = $vals['idfilial'];
       }
     }
   }
 
   public function getName() {
-    return 'FilialService_traerMailSocio_args';
+    return 'FilialService_traerLocalidad_args';
   }
 
   public function read($input)
@@ -135,9 +191,9 @@ class FilialService_traerMailSocio_args {
       }
       switch ($fid)
       {
-        case 6:
-          if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->user);
+        case 1:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->idfilial);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -154,10 +210,10 @@ class FilialService_traerMailSocio_args {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('FilialService_traerMailSocio_args');
-    if ($this->user !== null) {
-      $xfer += $output->writeFieldBegin('user', TType::STRING, 6);
-      $xfer += $output->writeString($this->user);
+    $xfer += $output->writeStructBegin('FilialService_traerLocalidad_args');
+    if ($this->idfilial !== null) {
+      $xfer += $output->writeFieldBegin('idfilial', TType::I32, 1);
+      $xfer += $output->writeI32($this->idfilial);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -167,7 +223,157 @@ class FilialService_traerMailSocio_args {
 
 }
 
-class FilialService_traerMailSocio_result {
+class FilialService_traerLocalidad_result {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    0 => array(
+      'var' => 'success',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var string
+   */
+  public $success = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'FilialService_traerLocalidad_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->success);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('FilialService_traerLocalidad_result');
+    if ($this->success !== null) {
+      $xfer += $output->writeFieldBegin('success', TType::STRING, 0);
+      $xfer += $output->writeString($this->success);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class FilialService_traerDiaMantenimiento_args {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    2 => array(
+      'var' => 'localidad',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var string
+   */
+  public $localidad = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['localidad'])) {
+        $this->localidad = $vals['localidad'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'FilialService_traerDiaMantenimiento_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->localidad);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('FilialService_traerDiaMantenimiento_args');
+    if ($this->localidad !== null) {
+      $xfer += $output->writeFieldBegin('localidad', TType::STRING, 2);
+      $xfer += $output->writeString($this->localidad);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class FilialService_traerDiaMantenimiento_result {
   static $isValidate = false;
 
   static $_TSPEC = array(
@@ -192,7 +398,7 @@ class FilialService_traerMailSocio_result {
   }
 
   public function getName() {
-    return 'FilialService_traerMailSocio_result';
+    return 'FilialService_traerDiaMantenimiento_result';
   }
 
   public function read($input)
@@ -229,7 +435,7 @@ class FilialService_traerMailSocio_result {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('FilialService_traerMailSocio_result');
+    $xfer += $output->writeStructBegin('FilialService_traerDiaMantenimiento_result');
     if ($this->success !== null) {
       $xfer += $output->writeFieldBegin('success', TType::I32, 0);
       $xfer += $output->writeI32($this->success);
