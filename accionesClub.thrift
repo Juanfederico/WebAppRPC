@@ -12,13 +12,13 @@ struct Filial{
 }
 
 struct UserSocio{
-	6: required string user;
+	1: required string user;
 }
 
 // Definición de servicios
 service SocioService
 {
 		// Ester servicio recibe dos parámetros y devuelve una lista de tipo Pelicula
-		string traerMailSocio(6: string user),
+		string traerMailSocio(1: string user),
         //list<Pelicula> traerPeliculasPorActor(1:string nombre, 2:string apellido),
 }

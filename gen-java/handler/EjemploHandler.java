@@ -3,7 +3,7 @@ package handler;
 import org.apache.thrift.TException;
 
 import dao.SocioDAO;
-import servicios.FilialService.Iface;
+import servicios.SocioService.Iface;
 
 public class EjemploHandler implements Iface {
 
