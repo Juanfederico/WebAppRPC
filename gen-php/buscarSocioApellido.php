@@ -3,10 +3,10 @@
 		<title>Cliente RPC</title>
 	</head>
 	<body>
-		<h3> Consultar mail segun el nombre de usuario del socio </h3>
+		<h3> Buscar un socio por apellido </h3>
 		<form action="cliente.php" method="POST">
-			<input type="hidden" name="tipoConsulta" value="mailsocio"/>
-			Nombre de usuario:<input type="text" name="user" value=""/>
+			<input type="hidden" name="tipoConsulta" value="socioapellido"/>
+			Apellido del socio:<input type="text" name="apellido" value=""/>
 			<span style="padding-right:50px;"></span>
 			<input type="submit" value="Consultar"/>
 		</form>

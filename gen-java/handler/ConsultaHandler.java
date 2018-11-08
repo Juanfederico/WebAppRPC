@@ -15,7 +15,7 @@ public class ConsultaHandler implements Iface {
 
 	@Override
 	public Socio traerSocioPorApellido(String apellido) throws TException {
-		// TODO Auto-generated method stub
-		return null;
+		SocioDAO socioDao = new SocioDAO();
+		return socioDao.traerSocioPorApellido(apellido);
 	}
 }

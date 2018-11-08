@@ -1,14 +1,9 @@
 package dao;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import servicios.UserSocio;
-import dao.DataSource;
+
+import consultasClub.Socio;
 
 public class SocioDAO {
 	DataSource ds;
@@ -34,6 +29,33 @@ public class SocioDAO {
 		}
 		
 		return emailSocio;
+	}
+	
+	public Socio traerSocioPorApellido(String apellido) {
+		Socio socio = null;
+		String query = "SELECT * FROM socio WHERE apellido='"+apellido+"'";
+		//String query = String.format("CALL TRAER_PELICULAS_POR_ACTOR('%s','%s')", nombre, apellido);
+		ResultSet rs = this.ds.execute(query);
+		try {
+			while (rs.next()){
+				System.out.println("entra");
+				socio = new Socio();
+				socio.setIdsocio(Integer.parseInt(rs.getString("idsocio")));
+				socio.setNum_afiliado(Integer.parseInt(rs.getString("num_afiliado")));
+				socio.setUser(rs.getString("user"));
+				socio.setNombre(rs.getString("nombre"));
+				socio.setApellido(rs.getString("apellido"));
+				socio.setDireccion(rs.getString("direccion"));
+				socio.setTelefono(rs.getString("telefono"));
+				socio.setEmail(rs.getString("email"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			this.ds.close();
+		}
+		
+		return socio;
 	}
 
 }

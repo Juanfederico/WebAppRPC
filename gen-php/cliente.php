@@ -40,15 +40,25 @@
 		$socket->setRecvTimeout(10*1000); //Timeout de espera
 		$transport = new TBufferedTransport($socket);
 		$protocol = new TBinaryProtocol($transport);
-	 
-		// Creamos un cliente
-		$client = new SocioServiceClient($protocol);
 
-		// Abrimos la conexión
-		$transport->open();
-	 
-		$user = $_POST['user'];
-		$resultado = $client->traerMailSocio($user);
+		$tipoConsulta = $_POST['tipoConsulta'];
+
+		if (strcasecmp($tipoConsulta, "mailsocio") == 0) {
+			// Creamos un socio
+			$socio = new SocioServiceClient($protocol);
+			// Abrimos la conexión
+			$transport->open();
+			$user = $_POST['user'];
+			$resultado = $socio->traerMailSocio($user);
+		}
+		else if (strcasecmp($tipoConsulta, "socioapellido") == 0) {
+			//Creamos un socio
+			$socio = new SocioServiceClient($protocol);
+			//Abrimos la conexion
+			$transport->open();
+			$apellido = $_POST['apellido'];
+			$resultado = $socio->traerSocioPorApellido($apellido);
+		}
 ?>
 
 <html>
@@ -59,8 +69,21 @@
 	</head>
 	<body>
 		<?php
-			echo "<h1> Direccion de email del usuario $user: </h1> <br/>";
-			echo $resultado;
+			if (strcasecmp($tipoConsulta, "mailsocio") == 0){
+				echo "<h1> Direccion de email del socio con nombre de usuario $user: </h1> <br/>";
+				echo $resultado;
+			}
+			if (strcasecmp($tipoConsulta, "socioapellido") == 0){
+				echo "<h1> Datos del socio con apellido $apellido: </h1> <br/>";
+				echo "<h3> ID de socio: </h3> $resultado->idsocio <br/>";
+				echo "<h3> Nro de afiliado: </h3> $resultado->num_afiliado <br/>";
+				echo "<h3> Usuario: </h3> $resultado->user <br/>";
+				echo "<h3> Nombre: </h3> $resultado->nombre <br/>";
+				echo "<h3> Apellido: </h3> $resultado->apellido <br/>";
+				echo "<h3> Direccion: </h3> $resultado->direccion <br/>";
+				echo "<h3> Telefono: </h3> $resultado->telefono <br/>";
+				echo "<h3> Email: </h3> $resultado->email <br/>";
+			}
 		} catch (TException $tx) {
 			// Excepción propia de Thrift (falló en la conexión, timeout, etc.)
 			echo "ThriftException: ".$tx->getMessage()."\r\n";
