@@ -24,7 +24,6 @@ public class FilialDAO {
 		}finally{
 			this.ds.close();
 		}
-		System.out.println("Localidad:" + localidad);
 		return localidad;
 	}
 	
@@ -42,7 +41,7 @@ public class FilialDAO {
 		}finally{
 			this.ds.close();
 		}
-		return (int) diames_mantenimiento;
+		return diames_mantenimiento;
 	}
 
 }

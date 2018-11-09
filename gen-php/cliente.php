@@ -70,6 +70,14 @@
 			$idfilial = $_POST['idfilial'];
 			$resultado = $filial->traerLocalidad($idfilial);
 		}
+		else if (strcasecmp($tipoConsulta, "diamantenimiento") == 0) {
+			//Creamos un socio
+			$filial = new FilialServiceClient($protocolFilial);
+			//Abrimos la conexion
+			$transport->open();
+			$localidad = $_POST['localidad'];
+			$resultado = $filial->traerDiaMantenimiento($localidad);
+		}
 ?>
 
 <html>
@@ -97,6 +105,10 @@
 			}
 			else if (strcasecmp($tipoConsulta, "localidadid") == 0){
 				echo "<h1> Localidad de la filial con id $idfilial: </h1> <br/>";
+				echo $resultado;
+			}
+			else if (strcasecmp($tipoConsulta, "diamantenimiento") == 0){
+				echo "<h1> Dia de mantenimiento para la localidad $localidad: </h1> <br/>";
 				echo $resultado;
 			}
 		} catch (TException $tx) {
