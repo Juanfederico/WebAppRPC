@@ -28,6 +28,7 @@
 	use Thrift\Exception\TException;
 	use Thrift\Transport\TSocket;
 	use Thrift\Protocol\TBinaryProtocol;
+	use Thrift\Protocol\TMultiplexedProtocol;
 	use Thrift\Transport\TBufferedTransport;
 	use consultasClub\CanchaServiceClient;
 	use consultasClub\FilialServiceClient;
@@ -40,12 +41,14 @@
 		$socket->setRecvTimeout(10*1000); //Timeout de espera
 		$transport = new TBufferedTransport($socket);
 		$protocol = new TBinaryProtocol($transport);
+		$protocolSocio = new TMultiplexedProtocol($protocol, 'SocioService');
+		$protocolFilial = new TMultiplexedProtocol($protocol, 'FilialService');
 
 		$tipoConsulta = $_POST['tipoConsulta'];
 
 		if (strcasecmp($tipoConsulta, "mailsocio") == 0) {
 			// Creamos un socio
-			$socio = new SocioServiceClient($protocol);
+			$socio = new SocioServiceClient($protocolSocio);
 			// Abrimos la conexión
 			$transport->open();
 			$user = $_POST['user'];
@@ -53,11 +56,19 @@
 		}
 		else if (strcasecmp($tipoConsulta, "socioapellido") == 0) {
 			//Creamos un socio
-			$socio = new SocioServiceClient($protocol);
+			$socio = new SocioServiceClient($protocolSocio);
 			//Abrimos la conexion
 			$transport->open();
 			$apellido = $_POST['apellido'];
 			$resultado = $socio->traerSocioPorApellido($apellido);
+		}
+		else if (strcasecmp($tipoConsulta, "localidadid") == 0) {
+			//Creamos un socio
+			$filial = new FilialServiceClient($protocolFilial);
+			//Abrimos la conexion
+			$transport->open();
+			$idfilial = $_POST['idfilial'];
+			$resultado = $filial->traerLocalidad($idfilial);
 		}
 ?>
 
@@ -73,7 +84,7 @@
 				echo "<h1> Direccion de email del socio con nombre de usuario $user: </h1> <br/>";
 				echo $resultado;
 			}
-			if (strcasecmp($tipoConsulta, "socioapellido") == 0){
+			else if (strcasecmp($tipoConsulta, "socioapellido") == 0){
 				echo "<h1> Datos del socio con apellido $apellido: </h1> <br/>";
 				echo "<h3> ID de socio: </h3> $resultado->idsocio <br/>";
 				echo "<h3> Nro de afiliado: </h3> $resultado->num_afiliado <br/>";
@@ -83,6 +94,10 @@
 				echo "<h3> Direccion: </h3> $resultado->direccion <br/>";
 				echo "<h3> Telefono: </h3> $resultado->telefono <br/>";
 				echo "<h3> Email: </h3> $resultado->email <br/>";
+			}
+			else if (strcasecmp($tipoConsulta, "localidadid") == 0){
+				echo "<h1> Localidad de la filial con id $idfilial: </h1> <br/>";
+				echo $resultado;
 			}
 		} catch (TException $tx) {
 			// Excepción propia de Thrift (falló en la conexión, timeout, etc.)

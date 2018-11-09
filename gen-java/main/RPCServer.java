@@ -1,5 +1,6 @@
 package main;
 
+import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TServer.Args;
 import org.apache.thrift.server.TSimpleServer;
@@ -7,28 +8,32 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransportException;
 
-import handler.ConsultaHandler;
 import consultasClub.FilialService;
-import consultasClub.CanchaService;
 import consultasClub.SocioService;
-import consultasClub.TurnoService;
+import handler.ConsultaHandler;
+import handler.FilialHandler;
 //import servicios.SocioService;
 
 public class RPCServer {
-	public static ConsultaHandler handler = new ConsultaHandler();
-	public static SocioService.Processor<ConsultaHandler> processor = new SocioService.Processor<ConsultaHandler>(handler);
+	//public static ConsultaHandler handler = new ConsultaHandler();
+	//public static SocioService.Processor<ConsultaHandler> processor = new SocioService.Processor<ConsultaHandler>(handler);
+	//public static FilialHandler filialHandler = new FilialHandler();
+	//public static FilialService.Processor<FilialHandler> processorFilial = new FilialService.Processor<FilialHandler>(filialHandler);
+	private static TMultiplexedProcessor multiProcessor = new TMultiplexedProcessor();
 	
 	public static void main(String[] args) {
+		multiProcessor.registerProcessor("SocioService", new SocioService.Processor<ConsultaHandler>(new ConsultaHandler()));
+		multiProcessor.registerProcessor("FilialService", new FilialService.Processor<FilialHandler>(new FilialHandler()));
 		Runnable simple = new Runnable() {
-	        public void run() {
-	          simple(processor);
-	        }
-	      };      
-	     
-	      new Thread(simple).start();
+			public void run() {
+				simple(multiProcessor);
+			}
+		}; 
+	    
+		new Thread(simple).start();
 	}
 
-	public static void simple(SocioService.Processor<ConsultaHandler> processor) {
+	public static void simple(TMultiplexedProcessor processor) {
 	    TServerTransport serverTransport;
 		try {
 			serverTransport = new TServerSocket(9091);
