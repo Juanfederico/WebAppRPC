@@ -43,6 +43,8 @@
 		$protocol = new TBinaryProtocol($transport);
 		$protocolSocio = new TMultiplexedProtocol($protocol, 'SocioService');
 		$protocolFilial = new TMultiplexedProtocol($protocol, 'FilialService');
+		$protocolCancha = new TMultiplexedProtocol($protocol, 'CanchaService');
+		$protocolTurno = new TMultiplexedProtocol($protocol, 'TurnoService');
 
 		$tipoConsulta = $_POST['tipoConsulta'];
 
@@ -78,6 +80,30 @@
 			$localidad = $_POST['localidad'];
 			$resultado = $filial->traerDiaMantenimiento($localidad);
 		}
+		else if (strcasecmp($tipoConsulta, "canchaid") == 0) {
+			//Creamos un socio
+			$cancha = new CanchaServiceClient($protocolCancha);
+			//Abrimos la conexion
+			$transport->open();
+			$idcancha = $_POST['idcancha'];
+			$resultado = $cancha->traerCanchaPorId($idcancha);
+		}
+		else if (strcasecmp($tipoConsulta, "canchasdeporte") == 0) {
+			//Creamos un socio
+			$cancha = new CanchaServiceClient($protocolCancha);
+			//Abrimos la conexion
+			$transport->open();
+			$deporte = $_POST['deporte'];
+			$resultado = $cancha->traerCanchasPorDeporte($deporte);
+		}
+		else if (strcasecmp($tipoConsulta, "turnosestado") == 0) {
+			//Creamos un socio
+			$turno = new TurnoServiceClient($protocolTurno);
+			//Abrimos la conexion
+			$transport->open();
+			$estado = $_POST['estado'];
+			$resultado = $turno->traerTurnosPorEstado($estado);
+		}
 ?>
 
 <html>
@@ -110,6 +136,38 @@
 			else if (strcasecmp($tipoConsulta, "diamantenimiento") == 0){
 				echo "<h1> Dia de mantenimiento para la localidad $localidad: </h1> <br/>";
 				echo $resultado;
+			}
+			else if (strcasecmp($tipoConsulta, "canchaid") == 0){
+				echo "<h1> Datos de la cancha con id $idcancha: </h1> <br/>";
+				echo "<h3> ID de cancha: </h3> $resultado->idcancha <br/>";
+				echo "<h3> ID de filial: </h3> $resultado->idfilial <br/>";
+				echo "<h3> Nro de cancha: </h3> $resultado->num_cancha <br/>";
+				echo "<h3> Deporte: </h3> $resultado->deporte <br/>";
+				echo "<h3> Categoria: </h3> $resultado->categoria <br/>";
+			}
+			else if (strcasecmp($tipoConsulta, "canchasdeporte") == 0){
+				echo "<h1> Listado de canchas con deporte $deporte: </h1> <br/><br/>";
+				foreach($resultado as $cancha){
+					echo "<h1> Datos de la cancha con id $cancha->idcancha: </h1> <br/>";
+					echo "<h3> ID de filial: </h3> $cancha->idfilial <br/>";
+					echo "<h3> Nro de cancha: </h3> $cancha->num_cancha <br/>";
+					echo "<h3> Deporte: </h3> $cancha->deporte <br/>";
+					echo "<h3> Categoria: </h3> $cancha->categoria <br/>";
+					echo "<hr/>";
+				}
+			}
+			else if (strcasecmp($tipoConsulta, "turnosestado") == 0){
+				echo "<h1> Listado de turnos con estado $estado: </h1> <br/><br/>";
+				foreach($resultado as $turno){
+					echo "<h1> Datos del turno con estado $estado: </h1> <br/>";
+					echo "<h3> ID de turno: </h3> $turno->idturno <br/>";
+					echo "<h3> ID de filial: </h3> $turno->idfilial <br/>";
+					echo "<h3> ID de cancha: </h3> $turno->idcancha <br/>";
+					echo "<h3> ID de socio: </h3> $turno->idsocio <br/>";
+					echo "<h3> Fecha y hora: </h3> $turno->fechahora <br/>";
+					echo "<h3> Estado: </h3> $turno->estado <br/>";
+					echo "<hr/>";
+				}
 			}
 		} catch (TException $tx) {
 			// Excepción propia de Thrift (falló en la conexión, timeout, etc.)

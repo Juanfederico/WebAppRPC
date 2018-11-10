@@ -8,10 +8,14 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransportException;
 
+import consultasClub.CanchaService;
 import consultasClub.FilialService;
 import consultasClub.SocioService;
+import consultasClub.TurnoService;
+import handler.CanchaHandler;
 import handler.ConsultaHandler;
 import handler.FilialHandler;
+import handler.TurnoHandler;
 //import servicios.SocioService;
 
 public class RPCServer {
@@ -24,6 +28,8 @@ public class RPCServer {
 	public static void main(String[] args) {
 		multiProcessor.registerProcessor("SocioService", new SocioService.Processor<ConsultaHandler>(new ConsultaHandler()));
 		multiProcessor.registerProcessor("FilialService", new FilialService.Processor<FilialHandler>(new FilialHandler()));
+		multiProcessor.registerProcessor("CanchaService", new CanchaService.Processor<CanchaHandler>(new CanchaHandler()));
+		multiProcessor.registerProcessor("TurnoService", new TurnoService.Processor<TurnoHandler>(new TurnoHandler()));
 		Runnable simple = new Runnable() {
 			public void run() {
 				simple(multiProcessor);
