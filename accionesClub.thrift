@@ -2,6 +2,17 @@
 namespace java consultasClub
 namespace php consultasClub
 
+exception IdIncorrecto{
+	1: i32 codError;
+	2: string descripcion;
+}
+
+exception UserIncorrecto{
+	1: i32 codError;
+	2: string descripcion;
+	3: string detallesAdicionales;
+}
+
 // Creo una estructura (o "entidad"/"clase")
 struct Filial{
 	1: i32 idfilial;
@@ -43,13 +54,15 @@ struct Turno
 // Definición de servicios
 service SocioService
 {
-		string traerMailSocio(3: string user),
+		string traerMailSocio(3: string user)
+			throws (1: UserIncorrecto exc),
 		Socio traerSocioPorApellido(5: string apellido),
 }
 
 service FilialService
 {
-		string traerLocalidad(1: i32 idfilial),
+		string traerLocalidad(1: i32 idfilial)
+			throws (1: IdIncorrecto exc),
 		i32 traerDiaMantenimiento(2: string localidad),
 }
 
