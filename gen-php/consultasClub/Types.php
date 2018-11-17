@@ -17,6 +17,228 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
+class IdIncorrecto extends TException {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'codError',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    2 => array(
+      'var' => 'descripcion',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $codError = null;
+  /**
+   * @var string
+   */
+  public $descripcion = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['codError'])) {
+        $this->codError = $vals['codError'];
+      }
+      if (isset($vals['descripcion'])) {
+        $this->descripcion = $vals['descripcion'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'IdIncorrecto';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->codError);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->descripcion);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('IdIncorrecto');
+    if ($this->codError !== null) {
+      $xfer += $output->writeFieldBegin('codError', TType::I32, 1);
+      $xfer += $output->writeI32($this->codError);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->descripcion !== null) {
+      $xfer += $output->writeFieldBegin('descripcion', TType::STRING, 2);
+      $xfer += $output->writeString($this->descripcion);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class UserIncorrecto extends TException {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'codError',
+      'isRequired' => false,
+      'type' => TType::I32,
+      ),
+    2 => array(
+      'var' => 'descripcion',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    3 => array(
+      'var' => 'detallesAdicionales',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $codError = null;
+  /**
+   * @var string
+   */
+  public $descripcion = null;
+  /**
+   * @var string
+   */
+  public $detallesAdicionales = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['codError'])) {
+        $this->codError = $vals['codError'];
+      }
+      if (isset($vals['descripcion'])) {
+        $this->descripcion = $vals['descripcion'];
+      }
+      if (isset($vals['detallesAdicionales'])) {
+        $this->detallesAdicionales = $vals['detallesAdicionales'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'UserIncorrecto';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->codError);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->descripcion);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->detallesAdicionales);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('UserIncorrecto');
+    if ($this->codError !== null) {
+      $xfer += $output->writeFieldBegin('codError', TType::I32, 1);
+      $xfer += $output->writeI32($this->codError);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->descripcion !== null) {
+      $xfer += $output->writeFieldBegin('descripcion', TType::STRING, 2);
+      $xfer += $output->writeString($this->descripcion);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->detallesAdicionales !== null) {
+      $xfer += $output->writeFieldBegin('detallesAdicionales', TType::STRING, 3);
+      $xfer += $output->writeString($this->detallesAdicionales);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
 class Filial {
   static $isValidate = false;
 

@@ -20,6 +20,7 @@ interface FilialServiceIf {
   /**
    * @param int $idfilial
    * @return string
+   * @throws \consultasClub\IdIncorrecto
    */
   public function traerLocalidad($idfilial);
   /**
@@ -88,6 +89,9 @@ class FilialServiceClient implements \consultasClub\FilialServiceIf {
     }
     if ($result->success !== null) {
       return $result->success;
+    }
+    if ($result->exc !== null) {
+      throw $result->exc;
     }
     throw new \Exception("traerLocalidad failed: unknown result");
   }
@@ -232,17 +236,30 @@ class FilialService_traerLocalidad_result {
       'isRequired' => false,
       'type' => TType::STRING,
       ),
+    1 => array(
+      'var' => 'exc',
+      'isRequired' => false,
+      'type' => TType::STRUCT,
+      'class' => '\consultasClub\IdIncorrecto',
+      ),
     );
 
   /**
    * @var string
    */
   public $success = null;
+  /**
+   * @var \consultasClub\IdIncorrecto
+   */
+  public $exc = null;
 
   public function __construct($vals=null) {
     if (is_array($vals)) {
       if (isset($vals['success'])) {
         $this->success = $vals['success'];
+      }
+      if (isset($vals['exc'])) {
+        $this->exc = $vals['exc'];
       }
     }
   }
@@ -273,6 +290,14 @@ class FilialService_traerLocalidad_result {
             $xfer += $input->skip($ftype);
           }
           break;
+        case 1:
+          if ($ftype == TType::STRUCT) {
+            $this->exc = new \consultasClub\IdIncorrecto();
+            $xfer += $this->exc->read($input);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -289,6 +314,11 @@ class FilialService_traerLocalidad_result {
     if ($this->success !== null) {
       $xfer += $output->writeFieldBegin('success', TType::STRING, 0);
       $xfer += $output->writeString($this->success);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->exc !== null) {
+      $xfer += $output->writeFieldBegin('exc', TType::STRUCT, 1);
+      $xfer += $this->exc->write($output);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
