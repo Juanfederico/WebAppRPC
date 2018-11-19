@@ -4,8 +4,8 @@ Dos metodos por cada tipo de respuesta
    - Localidad de filial por id de filial (OK)
    - Dia de mantenimiento de filial por localidad (OK)
 2: Excepcion
-   -
-   -
+   - UserIncorrecto en traerMailSocio de Socio (OK)
+   - IdIncorrecto en traerLocalidad de Filial (OK)
 3: Entidad
    - Socio por apellido (OK)
    - Cancha por id de cancha (OK)

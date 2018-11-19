@@ -2,15 +2,23 @@ package handler;
 
 import org.apache.thrift.TException;
 
-import consultasClub.Filial;
 import consultasClub.FilialService.Iface;
+import consultasClub.IdIncorrecto;
+import consultasClub.UserIncorrecto;
 import dao.FilialDAO;
 
 public class FilialHandler implements Iface {
 	
 	@Override
-	public String traerLocalidad(int idfilial) throws TException {
+	public String traerLocalidad(int idfilial) throws TException, IdIncorrecto {
 		FilialDAO filialDao = new FilialDAO();
+		String localidad = filialDao.traerLocalidad(idfilial);
+		if(localidad==null) {
+			IdIncorrecto exc = new IdIncorrecto();
+			exc.setCodError(501);
+			exc.setDescripcion("Error al traer la localidad de la filial");
+			throw exc;
+		}
 		return filialDao.traerLocalidad(idfilial);
 	}
 	

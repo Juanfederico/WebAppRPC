@@ -50,11 +50,17 @@
 
 		if (strcasecmp($tipoConsulta, "mailsocio") == 0) {
 			// Creamos un socio
-			$socio = new SocioServiceClient($protocolSocio);
-			// Abrimos la conexión
-			$transport->open();
-			$user = $_POST['user'];
-			$resultado = $socio->traerMailSocio($user);
+			try{
+				$socio = new SocioServiceClient($protocolSocio);
+				// Abrimos la conexión
+				$transport->open();
+				$user = $_POST['user'];
+				$resultado = $socio->traerMailSocio($user);
+			}
+			catch (TException $exc) {
+				$tipoConsulta = "excepcion";
+				$resultado = "Codigo de error: $exc->codError <br> Descripcion: $exc->descripcion <br> Detalles adicionales: $exc->detallesAdicionales";
+			}
 		}
 		else if (strcasecmp($tipoConsulta, "socioapellido") == 0) {
 			//Creamos un socio
@@ -66,11 +72,17 @@
 		}
 		else if (strcasecmp($tipoConsulta, "localidadid") == 0) {
 			//Creamos un socio
-			$filial = new FilialServiceClient($protocolFilial);
-			//Abrimos la conexion
-			$transport->open();
-			$idfilial = $_POST['idfilial'];
-			$resultado = $filial->traerLocalidad($idfilial);
+			try{
+				$filial = new FilialServiceClient($protocolFilial);
+				//Abrimos la conexion
+				$transport->open();
+				$idfilial = $_POST['idfilial'];
+				$resultado = $filial->traerLocalidad($idfilial);
+			}
+			catch (TException $exc) {
+				$tipoConsulta = "excepcion";
+				$resultado = "Codigo de error: $exc->codError <br> Descripcion: $exc->descripcion";
+			}
 		}
 		else if (strcasecmp($tipoConsulta, "diamantenimiento") == 0) {
 			//Creamos un socio
@@ -168,6 +180,9 @@
 					echo "<h3> Estado: </h3> $turno->estado <br/>";
 					echo "<hr/>";
 				}
+			}
+			else if (strcasecmp($tipoConsulta, "excepcion") == 0){
+				echo $resultado;
 			}
 		} catch (TException $tx) {
 			// Excepción propia de Thrift (falló en la conexión, timeout, etc.)

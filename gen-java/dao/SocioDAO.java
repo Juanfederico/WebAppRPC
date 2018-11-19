@@ -3,7 +3,10 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.thrift.TException;
+
 import consultasClub.Socio;
+import consultasClub.UserIncorrecto;
 
 public class SocioDAO {
 	DataSource ds;
@@ -12,7 +15,7 @@ public class SocioDAO {
 		ds = new DataSource();
 	}
 	
-	public String traerMailSocio(String user){
+	public String traerMailSocio(String user) throws TException, UserIncorrecto{
 		String emailSocio = null;
 		String query = "SELECT email FROM socio WHERE user='"+user+"'";
 		//String query = String.format("CALL TRAER_PELICULAS_POR_ACTOR('%s','%s')", nombre, apellido);
@@ -27,7 +30,6 @@ public class SocioDAO {
 		}finally{
 			this.ds.close();
 		}
-		
 		return emailSocio;
 	}
 	
