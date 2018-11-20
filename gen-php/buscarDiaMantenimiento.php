@@ -1,14 +1,13 @@
 <html>
 	<head>
-		<title>Cliente RPC</title>
+		<?php include 'header.php' ?>
 	</head>
 	<body>
-		<h3> Buscar dia de mantenimiento por localidad </h3>
+		<h3 style="text-align: center"> Buscar dia de mantenimiento por localidad </h3>
 		<form action="cliente.php" method="POST">
 			<input type="hidden" name="tipoConsulta" value="diamantenimiento"/>
 			Localidad:<input type="text" name="localidad" value=""/>
-			<span style="padding-right:50px;"></span>
-			<input type="submit" value="Consultar"/>
+			<input type="submit" value="Consultar"/>	
 		</form>
 	</body>
 </html>

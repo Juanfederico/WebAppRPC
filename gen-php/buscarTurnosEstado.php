@@ -1,13 +1,12 @@
 <html>
 	<head>
-		<title>Cliente RPC</title>
+		<?php include 'header.php' ?>
 	</head>
 	<body>
-		<h3> Buscar turnos por estado </h3>
+		<h3 style="text-align: center"> Buscar turnos por estado </h3>
 		<form action="cliente.php" method="POST">
 			<input type="hidden" name="tipoConsulta" value="turnosestado"/>
 			Estado:<input type="text" name="estado" value=""/>
-			<span style="padding-right:50px;"></span>
 			<input type="submit" value="Consultar"/>
 		</form>
 	</body>
