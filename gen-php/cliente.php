@@ -122,7 +122,8 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="tabla.css"> 
 		<meta charset="UTF-8">
-		<title>Cliente RPC </title>
+		<?php include 'header.php'?>
+		<title>Cliente RPC - Resultado </title>
 	</head>
 	<body>
 		<?php
@@ -159,29 +160,47 @@
 			}
 			else if (strcasecmp($tipoConsulta, "canchasdeporte") == 0){
 				echo "<h1> Listado de canchas con deporte $deporte: </h1> <br/><br/>";
+				$i = 1;
+				echo "<table class='table'>";
+				include 'tablaCanchas.php';
+				echo "<tbody>";
 				foreach($resultado as $cancha){
-					echo "<h1> Datos de la cancha con id $cancha->idcancha: </h1> <br/>";
-					echo "<h3> ID de filial: </h3> $cancha->idfilial <br/>";
-					echo "<h3> Nro de cancha: </h3> $cancha->num_cancha <br/>";
-					echo "<h3> Deporte: </h3> $cancha->deporte <br/>";
-					echo "<h3> Categoria: </h3> $cancha->categoria <br/>";
-					echo "<hr/>";
+					echo "<tr>";
+					echo "<th scope='row'>".$i."</th>";
+					echo "<td> $cancha->idcancha </td>";
+					echo "<td> $cancha->idfilial </td>";
+					echo "<td> $cancha->num_cancha </td>";
+					echo "<td> $cancha->deporte </td>";
+					echo "<td> $cancha->categoria </td>";
+					echo "<tr/>";
+					$i++;
 				}
+				echo "</tbody>";
+				echo "</table>";
 			}
 			else if (strcasecmp($tipoConsulta, "turnosestado") == 0){
 				echo "<h1> Listado de turnos con estado $estado: </h1> <br/><br/>";
+				$i = 1;
+				echo "<table class='table'>";
+				include 'tablaTurnos.php';
+				echo "<tbody>";
 				foreach($resultado as $turno){
-					echo "<h1> Datos del turno con estado $estado: </h1> <br/>";
-					echo "<h3> ID de turno: </h3> $turno->idturno <br/>";
-					echo "<h3> ID de filial: </h3> $turno->idfilial <br/>";
-					echo "<h3> ID de cancha: </h3> $turno->idcancha <br/>";
-					echo "<h3> ID de socio: </h3> $turno->idsocio <br/>";
-					echo "<h3> Fecha y hora: </h3> $turno->fechahora <br/>";
-					echo "<h3> Estado: </h3> $turno->estado <br/>";
-					echo "<hr/>";
+					echo "<tr>";
+					echo "<th scope='row'>".$i."</th>";
+					echo "<td> $turno->idturno </td>";
+					echo "<td> $turno->idfilial </td>";
+					echo "<td> $turno->idcancha </td>";
+					echo "<td> $turno->idsocio </td>";
+					echo "<td> $turno->fechahora </td>";
+					echo "<td> $turno->estado </td>";
+					echo "<tr/>";
+					$i++;
 				}
+				echo "</tbody>";
+				echo "</table>";
 			}
 			else if (strcasecmp($tipoConsulta, "excepcion") == 0){
+				echo "<br>";
 				echo $resultado;
 			}
 		} catch (TException $tx) {
