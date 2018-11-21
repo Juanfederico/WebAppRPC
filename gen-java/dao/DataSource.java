@@ -36,7 +36,7 @@ public class DataSource {
 				TimeZone timeZone = TimeZone.getTimeZone("UTC");
 			    TimeZone.setDefault(timeZone);
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost/bdsistemaclub", "root", "1324657980");
+				con = DriverManager.getConnection("jdbc:mysql://localhost/bdsistemaclub", "root", "root");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {

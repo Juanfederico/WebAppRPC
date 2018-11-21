@@ -128,37 +128,93 @@
 	<body>
 		<?php
 			if (strcasecmp($tipoConsulta, "mailsocio") == 0){
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
 				echo "<h1> Direccion de email del socio con nombre de usuario $user: </h1> <br/>";
 				echo $resultado;
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
+
 			}
 			else if (strcasecmp($tipoConsulta, "socioapellido") == 0){
-				echo "<h1> Datos del socio con apellido $apellido: </h1> <br/>";
-				echo "<h3> ID de socio: </h3> $resultado->idsocio <br/>";
-				echo "<h3> Nro de afiliado: </h3> $resultado->num_afiliado <br/>";
-				echo "<h3> Usuario: </h3> $resultado->user <br/>";
-				echo "<h3> Nombre: </h3> $resultado->nombre <br/>";
-				echo "<h3> Apellido: </h3> $resultado->apellido <br/>";
-				echo "<h3> Direccion: </h3> $resultado->direccion <br/>";
-				echo "<h3> Telefono: </h3> $resultado->telefono <br/>";
-				echo "<h3> Email: </h3> $resultado->email <br/>";
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
+		        echo "<h1> Datos del socio con apellido $apellido: </h1> <br>";
+		        echo "<table class='table'>";
+				include 'tablaSocio.php';
+				echo "<tbody>";
+				echo "<tr>";
+				echo "<td>$resultado->idsocio </td>";
+				echo "<td>$resultado->num_afiliado </td>";
+				echo "<td>$resultado->user </td>";
+				echo "<td>$resultado->nombre </td>";
+				echo "<td>$resultado->apellido </td>";
+				echo "<td>$resultado->direccion </td>";
+				echo "<td>$resultado->telefono </td>";
+				echo "<td>$resultado->email </td>";
+				echo "</tr>";
+				echo "</tbody>";
+				echo "</table>";
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
 			}
 			else if (strcasecmp($tipoConsulta, "localidadid") == 0){
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
 				echo "<h1> Localidad de la filial con id $idfilial: </h1> <br/>";
 				echo $resultado;
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
 			}
 			else if (strcasecmp($tipoConsulta, "diamantenimiento") == 0){
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
 				echo "<h1> Dia de mantenimiento para la localidad $localidad: </h1> <br/>";
 				echo $resultado;
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
 			}
 			else if (strcasecmp($tipoConsulta, "canchaid") == 0){
-				echo "<h1> Datos de la cancha con id $idcancha: </h1> <br/>";
-				echo "<h3> ID de cancha: </h3> $resultado->idcancha <br/>";
-				echo "<h3> ID de filial: </h3> $resultado->idfilial <br/>";
-				echo "<h3> Nro de cancha: </h3> $resultado->num_cancha <br/>";
-				echo "<h3> Deporte: </h3> $resultado->deporte <br/>";
-				echo "<h3> Categoria: </h3> $resultado->categoria <br/>";
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
+		        echo "<h1> Datos de la cancha con id $idcancha: </h1> <br/>";
+		        echo "<table class='table'>";
+				include 'tablaCancha.php';
+				echo "<tbody>";
+				echo "<tr>";
+				echo "<td>$resultado->idcancha </td>";
+				echo "<td>$resultado->idfilial </td>";
+				echo "<td>$resultado->num_cancha </td>";
+				echo "<td>$resultado->deporte </td>";
+				echo "<td>$resultado->categoria </td>";
+				echo "</tr>";
+				echo "</tbody>";
+				echo "</table>";
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
+				
+				
 			}
 			else if (strcasecmp($tipoConsulta, "canchasdeporte") == 0){
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
 				echo "<h1> Listado de canchas con deporte $deporte: </h1> <br/><br/>";
 				$i = 1;
 				echo "<table class='table'>";
@@ -177,8 +233,15 @@
 				}
 				echo "</tbody>";
 				echo "</table>";
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
 			}
 			else if (strcasecmp($tipoConsulta, "turnosestado") == 0){
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
 				echo "<h1> Listado de turnos con estado $estado: </h1> <br/><br/>";
 				$i = 1;
 				echo "<table class='table'>";
@@ -198,14 +261,24 @@
 				}
 				echo "</tbody>";
 				echo "</table>";
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
 			}
 			else if (strcasecmp($tipoConsulta, "excepcion") == 0){
-				echo "<br>";
-				echo $resultado;
+				echo "<br><br>";
+				echo '<div class="container">';
+		     	echo '<div class="row">';
+		        echo '<div class="col-md-12">';
+				echo '<h3>' . $resultado . '</h3>';
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
 			}
 		} catch (TException $tx) {
 			// Excepción propia de Thrift (falló en la conexión, timeout, etc.)
 			echo "ThriftException: ".$tx->getMessage()."\r\n";
+
 		} finally{
 			// Cerramos la conexión
 			$transport->close();

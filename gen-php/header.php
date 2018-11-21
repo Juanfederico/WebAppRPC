@@ -9,6 +9,7 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
 
 <nav class="navbar navbar-default navbar-fixed-top">
+  <br>
   <div class="container" style="text-align: center;">
   	<a href="buscarEmailUsuario.php">
     	<button type="button" class="btn btn-primary">Email de socio</button>
@@ -32,5 +33,6 @@
     	<button type="button" class="btn btn-primary">Turnos</button>
 	</a>
   </div>
+  <br>
 </nav>
 <br><br>

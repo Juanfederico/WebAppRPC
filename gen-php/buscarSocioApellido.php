@@ -3,11 +3,22 @@
 		<?php include 'header.php' ?>
 	</head>
 	<body>
+		<br><br>
+		<div class="container">
+     	<div class="row">
+         <div class="col-md-12">
 		<h3 style="text-align: center"> Buscar un socio por apellido </h3>
+		<br>
 		<form action="cliente.php" method="POST">
+			<div class="input-group mb-3">
 			<input type="hidden" name="tipoConsulta" value="socioapellido"/>
-			Apellido del socio:<input type="text" name="apellido" value=""/>
-			<input type="submit" value="Consultar"/>
+			<input type="text" name="apellido" value="" class="form-control" placeholder="Apellido del socio" />
+			<br><br>
+			<button type="submit" class="btn btn-inverse"> Consultar </button>
+			</div>
 		</form>
+		</div>
+</div>
+</div>
 	</body>
 </html>
